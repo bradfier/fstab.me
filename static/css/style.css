@@ -1,11 +1,10 @@
-/*
 @font-face {
-    font-family: 'Roboto Slab';
+    font-family: 'Slabo 13px';
     font-style: normal;
     font-weight: 400;
-    src: local('Roboto Slab Regular'), local('RobotoSlab-Regular'), url(/static/fonts/RobotoSlab-Regular.ttf);
+    src: local('Slabo 13px'), local('Slabo13px-Regular'), url(/static/webfonts/Slabo13px-Regular.ttf);
 }
-*/
+
 
 body {
     font-family: "Slabo 13px";
@@ -38,6 +37,7 @@ article p {
 article code {
     color: #8d0745;
 }
+
 
 h2 {
     font-size: 1.67em;
