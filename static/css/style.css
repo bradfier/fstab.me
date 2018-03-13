@@ -35,6 +35,10 @@ article p {
     font-size: 1em;
 }
 
+article code {
+    color: #8d0745;
+}
+
 h2 {
     font-size: 1.67em;
     margin: .67em 0
