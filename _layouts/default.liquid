@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>{{ page.title }}</title>
+        {% include "_external_resources.liquid" %}
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/css/style.css">
+    </head>
+    <body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mr-auto">
+                <article>
+                  <h2>{{ page.title }}</h2>
+                  {{ page.content }}
+                </article>
+            </div>
+            <div class="col-md-3 ml-auto sidebar">
+                {% include "_sidebar.liquid" %}
+            </div>
+        </div>
+    </div>
+  </body>
+</html>

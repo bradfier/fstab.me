@@ -1,0 +1,62 @@
+/*
+@font-face {
+    font-family: 'Roboto Slab';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Roboto Slab Regular'), local('RobotoSlab-Regular'), url(/static/fonts/RobotoSlab-Regular.ttf);
+}
+*/
+
+body {
+    font-family: "Slabo 27px";
+    font-size: 13pt;
+}
+
+.container {
+}
+
+.sidebar {
+    font-size: 12pt;
+    padding-top: 20px;
+}
+
+.sidebar a {
+    color: #444;
+    text-decoration: underline;
+}
+
+.sidebar p {
+    margin-top: 0;
+    margin-bottom: 0.37em;
+}
+
+article p {
+    line-height: 1.5;
+    font-size: 1em;
+}
+
+h2 {
+    font-size: 1.67em;
+    margin: .67em 0
+}
+
+h3 {
+    font-size: 1.5em;
+}
+
+h4 {
+    font-size: 1.25em;
+}
+
+pre {
+    border: 1px #ddd solid;
+    border-radius: 0;
+    padding: 9px;
+    overflow-x: auto;
+    line-height: 1.2;
+    font-family: monospace;
+}
+
+.stubdate {
+    color: #555;
+}

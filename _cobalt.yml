@@ -1,0 +1,9 @@
+
+site:
+  title: Richard Bradfield
+  description: Blog Posts - Mostly coherent
+  base_url: http://fstab.me
+posts:
+  rss: rss.xml
+syntax_highlight:
+    theme: InspiredGitHub
