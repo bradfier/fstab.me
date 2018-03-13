@@ -8,15 +8,15 @@
 */
 
 body {
-    font-family: "Slabo 27px";
-    font-size: 13pt;
+    font-family: "Slabo 13px";
+    font-size: 12pt;
 }
 
 .container {
 }
 
 .sidebar {
-    font-size: 12pt;
+    font-size: 13px;
     padding-top: 20px;
 }
 
@@ -55,6 +55,7 @@ pre {
     overflow-x: auto;
     line-height: 1.2;
     font-family: monospace;
+    font-size: 11pt;
 }
 
 .stubdate {
