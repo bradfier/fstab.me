@@ -1,22 +1,22 @@
-title: tibrv-rs - Migrating to Tokio 0.1
+title: "tibrv-rs - Migrating to Tokio 0.1"
+published_date: "2018-06-05 09:00:00 +0000"
 layout: default.liquid
-published_date: "2018-03-13 00:26:51 +0000"
 is_draft: false
 ---
 In the three months since the first 'real' release of tibrv-rs (v0.2.0)
 the Rust community have been hard at work revamping the Tokio and Futures
-projects, aiming to make asynchronous programming in Rust a bit easier to
-grok, especially for people new to the language. Unfortunately, this means
-a few changes are required to libraries which already use Tokio components.
+projects, aiming to make asynchronous programming in Rust easier to understand.
+Unfortunately, this means a few changes are required to libraries which
+are already using Tokio components.
 
 While the changes to futures are important in the wider Rust context,
 of significance to tibrv-rs is the introduction of the `tokio` facade crate,
-and the new 'Tokio Runtime': a bundled 'batteries included'
-reactor and work-stealing thread pool.
+and the new 'Tokio Runtime': a 'batteries included' reactor and
+work-stealing thread pool.
 
 These new defaults place a couple of restrictions on the Futures the executor
-can handle, mainly that the thread-pooling requires that all the members of the
-Future have the `'static` lifetime.
+can handle, mainly that thread-pooling requires all the members of the
+Future to have a `'static` lifetime.
 
 More information on the refactor can be found here:
 
@@ -27,10 +27,11 @@ More information on the refactor can be found here:
 
 ## Implications for tibrv-rs
 
-Two main changes have been made to accomodate the new requirements for Futures:
+Two changes have been made to accomodate the new requirements for Futures:
 
 * `RvCtx` handles are now consumed rather than borrowed.
-* `Subscription` and `AsyncSub` now consume their underlying `Queue`/`AsyncQueue` rather than borrow it.
+* `Subscription` and `AsyncSub` now wrap their own `Queue` or `AsyncQueue` rather than borrowing
+an existing queue.
 
 The first is really just a change in syntax: you will need to `.clone()` the context rather than provide it
 as a borrow.
@@ -39,20 +40,20 @@ as a borrow.
 // tibrv-rs 0.2.0
 let ctx = RvCtx::new().unwrap();
 let tp = TransportBuilder::new(&ctx).create().unwrap();
-let queue = AsyncQueue::new(&ctx).unwrap();
 
 // tibrv-rs 0.3.0
 let ctx = RvCtx::new().unwrap();
 let tp = TransportBuilder::new(ctx.clone()).create().unwrap();
-let queue = AsyncQueue::new(ctx.clone()).unwrap();
 ```
 
 The second change may have more of an impact, depending on your use case.
 
-As queues are now consumed by subscriptions, it's no longer possible to subscribe to
-multiple Rendezvous subjects on a single queue. This could have performance implications
-for users subscribing to a large number of different subjects, but hopefully the
-flexibility gained from the new Tokio Runtime should offset this potential loss.
+Queues are now owned and managed by subscriptions, and it's no longer possible to
+subscribe to multiple Rendezvous subjects on a single event queue. This could potentially
+have performance implications for users subscribing to very large numbers of subjects, but
+hopefully the flexibility gained from the new Tokio runtime will offset this potential loss.
+
+`Subscription` and `AsyncSub` are now obtained directly from the transport:
 
 ```rust
 // tibrv-rs 0.2.0
@@ -62,16 +63,11 @@ let sub2 = queue.subscribe(&core.handle, &transport, "TEST2").unwrap();
 
 
 // tibrv-rs 0.3.0
-let queue1 = AsyncQueue::new(ctx.clone()).unwrap();
-let queue2 = AsyncQueue::new(ctx.clone()).unwrap();
+let transport = TransportBuilder::new(ctx.clone()).create().unwrap();
 
-let sub1 = queue1.subscribe(&handle, &transport, "TEST").unwrap();
-let sub2 = queue2.subscribe(&handle, &transport, "TEST2").unwrap();
+let sub1 = transport.async_sub(&handle, "TEST").unwrap();
+let sub2 = transport.async_sub(&handle, "TEST2").unwrap();
 ```
-
-It's likely that in future the concept of `Queue` and `AsyncQueue` will be
-hidden behind the `Subscription` and `AsyncSub` types, as without the ability
-to subscribe to multiple subjects the distinction is more confusing than helpful.
 
 ### tokio::run() and tokio::spawn()
 
