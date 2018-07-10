@@ -31,6 +31,9 @@ article code {
     color: #8d0745;
 }
 
+h1 {
+    margin: .8rem 0
+}
 
 h2 {
     font-size: 1.75em;
